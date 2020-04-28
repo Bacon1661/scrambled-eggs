@@ -1,14 +1,15 @@
+const fs = require("fs");
 let scrambles = {};
-scrambles.clock = require("./scrambles/clock.js");
-scrambles.mega = require("./scrambles/mega.js");
-scrambles.pyra = require("./scrambles/pyra.js");
-scrambles.redi = require("./scrambles/redi.js");
-scrambles.skewb = require("./scrambles/skewb.js");
-scrambles.squan = require("./scrambles/squan.js");
+
+(function loadFiles(dir = "./scrambles") {
+	fs.readdirSync(dir).map(file => {
+		file = file.split(".");
+		return file[1] ? scrambles[file[0]] = require(`${dir}/${file[0]}.js`) : loadFiles(`${dir}/${file[0]}`);
+	});
+}());
 
 function Egg(cube, amount) {
 	if(!amount || isNaN(amount)) amount = 1;
-//  using later for NNN cubes: scrambles = require(`./scrambles/NNN/${NNN}.js`);
 	return scrambles[cube].run(amount);
 }
 
