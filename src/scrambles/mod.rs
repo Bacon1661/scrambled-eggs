@@ -5,3 +5,4 @@ pub mod pyra;
 pub mod redi;
 pub mod skewb;
 pub mod squan;
+pub mod tower;
